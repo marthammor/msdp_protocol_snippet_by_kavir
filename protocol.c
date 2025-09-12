@@ -1835,11 +1835,10 @@ static void PerformSubnegotiation(descriptor_t *apDescriptor, char aCmd, char *a
             pProtocol->b256Support = eYES;
           }
         } else if (PrefixString("Mudlet", pClientName)) {
-          /* Mudlet beta 15 and later supports 256 colours, but we can't
-           * identify it from the mud - everything prior to 1.1 claims
-           * to be version 1.0, so we just don't know.
-           */
-          pProtocol->b256Support = eSOMETIMES;
+          /* Mudlet 1.1 and later supports 256 colours. */
+
+          pProtocol->pVariables[eMSDP_XTERM_256_COLORS]->ValueInt = 1;
+          pProtocol->b256Support = eYES;
 
           if (strlen(pClientName) > 7) {
             pClientName[6] = '\0';
@@ -1847,12 +1846,6 @@ static void PerformSubnegotiation(descriptor_t *apDescriptor, char aCmd, char *a
             pProtocol->pVariables[eMSDP_CLIENT_ID]->pValueString = AllocString(pClientName);
             free(pProtocol->pVariables[eMSDP_CLIENT_VERSION]->pValueString);
             pProtocol->pVariables[eMSDP_CLIENT_VERSION]->pValueString = AllocString(pClientName + 7);
-
-            /* Mudlet 1.1 and later supports 256 colours. */
-            if (strcmp(pProtocol->pVariables[eMSDP_CLIENT_VERSION]->pValueString, "1.1") >= 0) {
-              pProtocol->pVariables[eMSDP_XTERM_256_COLORS]->ValueInt = 1;
-              pProtocol->b256Support = eYES;
-            }
           }
         } else if (MatchString(pClientName, "EMACS-RINZAI")) {
           /* We know for certain that this client has support */
