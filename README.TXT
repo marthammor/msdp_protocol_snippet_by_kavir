@@ -609,3 +609,4 @@ Version 9 (28-March-2020)
 * Added MSDPSendTable to send instant MSDP updates, for automapping support.
 
 * Added MTTS handling for detecting ANSI, 256 colors, and UTF-8 support.
+ 
